@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VERA — AI Compliance Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f2eb;
+  --bg-card: #ffffff;
+  --bg-sidebar: #ede8e1;
+  --text: #1a1a2e;
+  --text-sec: #6b6359;
+  --text-muted: #a69b8e;
+  --accent: #1e3a5f;
+  --accent-warm: #c4956a;
+  --accent-light: #5b8ec9;
+  --accent-subtle: #e8e2d9;
+  --border: #e0d8ce;
+  --border-light: #f0ebe4;
+  --shadow: 0 2px 8px rgba(0,0,0,0.05);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.07);
+  --radius: 8px;
+  --radius-lg: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; }
+body { font-family: Inter,system-ui,sans-serif; color: var(--text); background: var(--bg); line-height: 1.7; overflow: hidden; }
+h1,h2,h3 { font-family: 'Source Serif 4',Georgia,serif; font-weight: 600; letter-spacing: -0.015em; }
+h1 { font-size: 30px; }
+h2 { font-size: 20px; }
+.page-title { font-size: 32px; font-weight: 700; margin-bottom: 6px; line-height: 1.2; }
+.page-subtitle { font-size: 15px; color: var(--text-sec); margin-bottom: 40px; line-height: 1.6; }
+.layout { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 280px; min-width: 280px; background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; }
+.sidebar-logo { padding: 32px 24px 24px; border-bottom: 1px solid var(--border); }
+.sidebar-logo a { text-decoration: none; }
+.sidebar-logo h1 { font-size: 24px; color: var(--accent); letter-spacing: -0.03em; }
+.sidebar-logo p { font-size: 11px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.04em; margin-top: 3px; }
+.sidebar-nav { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 3px; }
+.sidebar-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--text-sec); cursor: pointer; transition: all .18s ease; text-decoration: none; border: none; background: none; width: 100%; text-align: left; }
+.sidebar-link:hover { background: var(--bg-card); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.sidebar-link.active { background: var(--accent); color: #fff; box-shadow: 0 4px 12px rgba(30,58,95,0.25); }
+.sidebar-link .icon { font-size: 17px; opacity: .65; }
+.sidebar-link.active .icon { opacity: 1; }
+.sidebar-footer { padding: 20px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
+
+/* Main */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { height: 64px; min-height: 64px; background: var(--bg-card); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 40px; }
+.topbar-title { font-size: 13px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.01em; }
+.topbar-status { display: flex; align-items: center; gap: 7px; padding: 5px 14px; background: #ecfdf5; border-radius: 999px; font-size: 12px; font-weight: 500; color: #065f46; }
+.content { flex: 1; padding: 40px; overflow-y: auto; }
+.page { display: none; }
+.page.active { display: block; animation: fadeIn .35s ease; }
+@keyframes fadeIn { from { opacity:0;transform:translateY(6px)} to { opacity:1;transform:translateY(0)} }
+
+/* Components */
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px; transition: all .25s ease; }
+.card:hover { box-shadow: var(--shadow-hover); }
+.btn-p { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: var(--accent); color: #fff; font-size: 14px; font-weight: 500; border: none; border-radius: 8px; cursor: pointer; transition: all .2s ease; letter-spacing: 0.01em; }
+.btn-p:hover { background: #162d4a; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(30,58,95,0.2); }
+.btn-p:disabled { opacity: .55; cursor: default; transform: none; box-shadow: none; }
+.btn-s { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: transparent; color: var(--text); font-size: 14px; font-weight: 500; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all .2s ease; }
+.btn-s:hover { background: var(--accent-subtle); border-color: var(--accent-warm); }
+.field { width: 100%; padding: 12px 16px; font-size: 14px; font-family: Inter,sans-serif; color: var(--text); background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; outline: none; transition: border-color .2s ease,box-shadow .2s ease; }
+.field:focus { border-color: var(--accent-light); box-shadow: 0 0 0 4px rgba(91,142,201,.12); }
+.field::placeholder { color: var(--text-muted); }
+label { display: block; font-size: 13px; font-weight: 500; color: var(--text-sec); margin-bottom: 7px; letter-spacing: 0.01em; }
+.sec-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin-bottom: 14px; }
+.stat-val { font-family: 'Source Serif 4',Georgia,serif; font-size: 36px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+.stat-lbl { font-size: 13px; font-weight: 500; color: var(--text-sec); }
+.tag { display: inline-flex; align-items: center; padding: 5px 12px; font-size: 12px; font-weight: 500; border-radius: 999px; letter-spacing: 0.01em; }
+.tag-s { background: #ecfdf5; color: #065f46; }
+.tag-w { background: #fffbeb; color: #92400e; }
+.tag-d { background: #fef2f2; color: #991b1b; }
+.tag-i { background: var(--accent-subtle); color: var(--accent); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; }
+.divider { height: 1px; background: var(--border); margin: 24px 0; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.status-dot.on { background: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,.15); }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+.loader { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* Decorative */
+.accent-line { width: 40px; height: 3px; background: var(--accent-warm); border-radius: 2px; margin-bottom: 20px; }
+.page-header { margin-bottom: 40px; }
+.page-header .accent-line { margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="#" onclick="navigate('overview')"><h1>VERA</h1><p>AI Compliance Intelligence</p></a>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="sidebar-link active" href="#" data-page="overview" onclick="navigate('overview')"><span class="icon">◇</span>Overview</a>
+      <a class="sidebar-link" href="#" data-page="loan" onclick="navigate('loan')"><span class="icon">▤</span>Loan Intelligence</a>
+      <a class="sidebar-link" href="#" data-page="kyc" onclick="navigate('kyc')"><span class="icon">◈</span>KYC Verification</a>
+      <a class="sidebar-link" href="#" data-page="fraud" onclick="navigate('fraud')"><span class="icon">⚠</span>Fraud Intelligence</a>
+      <a class="sidebar-link" href="#" data-page="aml" onclick="navigate('aml')"><span class="icon">◉</span>AML Monitoring</a>
+      <a class="sidebar-link" href="#" data-page="audit" onclick="navigate('audit')"><span class="icon">⊞</span>Audit Trail</a>
+      <a class="sidebar-link" href="#" data-page="reports" onclick="navigate('reports')"><span class="icon">▣</span>Reports</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span class="status-dot on"></span><span style="font-weight:500;color:var(--text)">All Systems Normal</span>
+      </div>
+      <p>VERA v1.0 · Gemma 4</p>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <span class="topbar-title">Self-Hosted AI Risk &amp; Compliance Platform</span>
+      <div class="topbar-status"><span class="status-dot on" style="width:6px;height:6px"></span>Gemma Connected</div>
+    </header>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<script>
+let currentPage = 'overview';
+function navigate(page) {
+  currentPage = page;
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.querySelector(`[data-page="${page}"]`).classList.add('active');
+  renderPage(page);
+}
+
+const state = {
+  overview: { stats: [
+    { label: 'Active Risk Alerts', value: 7, change: '+2', up: false },
+    { label: 'Pending KYC Reviews', value: 23, change: '+5', up: true },
+    { label: 'Fraud Flags Today', value: 14, change: '-3', up: true },
+    { label: 'AML Investigations', value: 4, change: '+1', up: false },
+  ]},
+  loan: { form: {}, result: null, loading: false },
+  kyc: { step: 1, form: {}, result: null, loading: false },
+  fraud: { form: { customerId: 'CUST001', avgSpend: '100000' }, result: null, loading: false },
+  aml: { form: { accountType: 'savings', dateRange: '30' }, result: null, loading: false },
+};
+
+// ====== OVERVIEW ======
+function renderOverview() {
+  const s = state.overview;
+  return `
+    <div class="page active">
+      <div class="page-header">
+        <div class="accent-line"></div>
+        <h1 style="font-size:38px;margin-bottom:10px">VERA</h1>
+        <p style="font-size:17px;color:var(--text-sec);max-width:640px;line-height:1.7">Explainable fintech intelligence for fraud detection, KYC verification, AML monitoring, and loan risk analysis.</p>
+      </div>
+      <div class="grid-3 mb-40">
+        ${s.stats.map(st => `
+          <div class="card">
+            <p class="stat-lbl mb-10">${st.label}</p>
+            <div style="display:flex;align-items:baseline;gap:12px">
+              <span class="stat-val">${st.value}</span>
+              <span style="font-size:13px;font-weight:500;color:${st.up ? '#065f46' : '#991b1b'};background:${st.up ? '#ecfdf5' : '#fef2f2'};padding:2px 8px;border-radius:4px">${st.change} today</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:28px" class="mb-32">
+        <div class="card">
+          <h2 style="margin-bottom:24px">Live Activity Feed</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            ${[
+              { text: 'Suspicious overseas transfer detected — ₹12,50,000 to unknown beneficiary', time: '2 min ago', sev: 'high', type: 'Fraud Alert' },
+              { text: 'KYC mismatch identified — Aadhaar name does not match PAN', time: '8 min ago', sev: 'mid', type: 'KYC Flag' },
+              { text: 'Loan approved after verification — ₹15,00,000 at 9.5%', time: '15 min ago', sev: 'low', type: 'Loan Event' },
+              { text: 'Potential structuring pattern detected — 4 deposits under ₹10L', time: '27 min ago', sev: 'high', type: 'AML Alert' },
+            ].map(a => `
+              <div style="display:flex;gap:16px;padding:14px 18px;background:${a.sev === 'high' ? '#fef2f2' : a.sev === 'mid' ? '#fffbeb' : '#f0fdf4'};border-radius:8px;border-left:4px solid ${a.sev === 'high' ? '#ef4444' : a.sev === 'mid' ? '#f59e0b' : '#10b981'}">
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                    <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted)">${a.type}</span>
+                    ${a.sev === 'high' ? '<span class="tag tag-d" style="font-size:10px;padding:2px 8px">CRITICAL</span>' : ''}
+                  </div>
+                  <p style="font-size:14px;line-height:1.6">${a.text}</p>
+                  <p style="font-size:12px;color:var(--text-muted);margin-top:6px">${a.time}</p>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="card">
+          <h2 style="margin-bottom:24px">AI Intelligence</h2>
+          <div style="background:var(--bg-sidebar);padding:18px;border-radius:8px;margin-bottom:20px;border-left:3px solid var(--accent-warm)">
+            <p class="sec-title mb-8">Risk Summary</p>
+            <p style="font-size:14px;line-height:1.7">Transaction activity shows elevated risk in cross-border payments. Three transfers exceeding ₹10L detected in the last 24 hours — a 340% increase over normal patterns.</p>
+          </div>
+          <div class="mb-20">
+            <p class="sec-title">AI Reasoning</p>
+            <p style="font-size:14px;color:var(--text-sec);line-height:1.7">Repeated sub-threshold deposits suggest potential structuring activity. Customer&apos;s historical behavior shows no prior high-value cross-border transactions.</p>
+          </div>
+          <div>
+            <p class="sec-title">Recommended Action</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">${['Manual Review','Escalate to Analyst','Monitor Activity'].map(t => `<span class="tag tag-w">${t}</span>`).join('')}</div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="display:flex;gap:40px;flex-wrap:wrap;padding:24px 28px">
+        ${[['RBI Compliance','Compliant','tag-s','FREE-AI Framework'],['DPDP Act 2023','Compliant','tag-s','Data Localisation'],['PMLA','Compliant','tag-s','FIU-IND Reporting']].map(c => `
+          <div><p class="sec-title">${c[0]}</p><div style="display:flex;align-items:center;gap:10px;margin-top:6px"><span class="tag ${c[2]}" style="font-size:11px;padding:4px 10px">${c[1]}</span><span style="font-size:13px;color:var(--text-sec)">${c[3]}</span></div></div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ====== LOAN ======
+function handleLoanChange(name, value) { state.loan.form[name] = value; }
+function analyzeLoan() {
+  const f = state.loan.form;
+  state.loan.loading = true; renderLoan();
+  const income = parseFloat(f.monthlyIncome)||0, loanAmt = parseFloat(f.loanAmount)||0, expenses = parseFloat(f.monthlyExpenses)||0, creditScore = parseInt(f.creditScore)||0;
+  const approved = loanAmt <= 10000000 && income >= expenses*2 && creditScore >= 600 && !f.previousDefaults;
+  setTimeout(() => {
+    state.loan.result = {
+      decision: approved ? 'APPROVED' : 'REVIEW', riskLevel: approved ? 'Low' : 'Medium-High', confidence: approved ? 92 : 58,
+      recommendedLoan: '₹' + Math.min(loanAmt, income*12*3).toLocaleString('en-IN'),
+      checks: [
+        { label: 'Income Verified', passed: income >= 25000 },
+        { label: 'Debt Ratio Within Threshold', passed: (expenses/(income||1)) <= 0.4 },
+        { label: 'Credit Score Acceptable', passed: creditScore >= 600 },
+        { label: 'No Major Defaults', passed: !f.previousDefaults },
+        { label: 'Loan Amount Within Limits', passed: loanAmt <= 10000000 },
+      ]
+    };
+    state.loan.loading = false; renderLoan();
+  }, 1500);
+}
+
+function renderLoan() {
+  const s = state.loan;
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">Loan Intelligence</h1><p class="page-subtitle">AI-assisted underwriting and loan structuring analysis.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <h2 style="margin-bottom:24px">Loan Application</h2>
+          <div class="mb-24">
+            <p class="sec-title">Personal Information</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Full Name</label><input class="field" placeholder="Enter full name" onchange="handleLoanChange('name',this.value)"></div>
+              <div><label>Date of Birth</label><input type="date" class="field" onchange="handleLoanChange('dob',this.value)"></div>
+              <div><label>Phone Number</label><input class="field" placeholder="+91 9XXX XXX XXX" onchange="handleLoanChange('phone',this.value)"></div>
+              <div><label>Email Address</label><input type="email" class="field" placeholder="name@email.com" onchange="handleLoanChange('email',this.value)"></div>
+            </div>
+          </div>
+          <div class="mb-24">
+            <p class="sec-title">Financial Information</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Monthly Income (₹)</label><input class="field" placeholder="e.g. 80000" onchange="handleLoanChange('monthlyIncome',this.value)"></div>
+              <div><label>Monthly Expenses (₹)</label><input class="field" placeholder="e.g. 30000" onchange="handleLoanChange('monthlyExpenses',this.value)"></div>
+              <div><label>Requested Loan (₹)</label><input class="field" placeholder="e.g. 1000000" onchange="handleLoanChange('loanAmount',this.value)"></div>
+              <div><label>Credit Score</label><input class="field" placeholder="300-900" onchange="handleLoanChange('creditScore',this.value)"></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 16px;background:var(--bg-sidebar);border-radius:8px">
+              <input type="checkbox" id="pd" onchange="handleLoanChange('previousDefaults',this.checked)" style="width:16px;height:16px">
+              <label for="pd" style="margin:0;font-size:13px;cursor:pointer">Previous Defaults</label>
+            </div>
+          </div>
+          <button class="btn-p" onclick="analyzeLoan()" style="width:100%;justify-content:center" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze Loan Eligibility'}</button>
+        </div>
+        <div>
+          ${!s.result && !s.loading ? `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">▤</p><p style="font-size:15px">Submit a loan application to see AI analysis</p></div>` : ''}
+          ${s.loading ? `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing the application...</p></div>` : ''}
+          ${s.result ? `
+            <div class="card mb-20">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+                <div><p class="sec-title mb-6">Decision</p><h2 style="font-size:30px;color:${s.result.decision === 'APPROVED' ? '#065f46' : '#92400e'}">${s.result.decision}</h2></div>
+                <div style="text-align:right"><p class="sec-title mb-6">Risk Level</p><span class="tag ${s.result.riskLevel === 'Low' ? 'tag-s' : 'tag-w'}" style="font-size:13px">${s.result.riskLevel}</span></div>
+              </div>
+              <div><p class="sec-title mb-6">Confidence</p>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <div style="flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden"><div style="width:${s.result.confidence}%;height:100%;background:${s.result.confidence >= 80 ? '#10b981' : '#f59e0b'};border-radius:4px;transition:width .6s ease"></div></div>
+                  <span style="font-size:15px;font-weight:600;min-width:48px">${s.result.confidence}%</span>
+                </div>
+              </div>
+            </div>
+            <div class="card mb-20">
+              <h3 style="margin-bottom:16px">Loan Structuring</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                <div style="padding:16px;background:var(--bg-sidebar);border-radius:8px"><p class="sec-title">Recommended Loan</p><p style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px">${s.result.recommendedLoan}</p></div>
+                <div style="padding:16px;background:var(--bg-sidebar);border-radius:8px"><p class="sec-title">Risk Category</p><span class="tag ${s.result.riskLevel === 'Low' ? 'tag-s' : 'tag-w'}" style="margin-top:8px;font-size:13px">${s.result.riskLevel}</span></div>
+              </div>
+            </div>
+            <div class="card">
+              <h3 style="margin-bottom:16px">Verification Checks</h3>
+              ${s.result.checks.map(c => `
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.passed ? '#f0fdf4' : '#fef2f2'};border-radius:8px;margin-bottom:8px">
+                  <span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? '✓' : '✗'}</span>
+                  <span style="font-size:14px;font-weight:500">${c.label}</span>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ====== KYC ======
+function renderKYC() {
+  const s = state.kyc;
+  const steps = [1,2,3,4,5];
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">KYC Verification</h1><p class="page-subtitle">Multi-step identity verification workflow.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <div style="display:flex;gap:10px;margin-bottom:32px">${steps.map(st => `<div style="flex:1;height:5px;border-radius:3px;background:${s.step >= st ? 'var(--accent)' : 'var(--border)'};transition:background .3s ease"></div>`).join('')}</div>
+          ${s.step === 1 ? `
+            <p class="sec-title" style="font-size:14px;margin-bottom:20px">Personal Details</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div style="grid-column:1/-1"><label>Full Name</label><input class="field" onchange="kycForm.name=this.value"></div>
+              <div><label>Date of Birth</label><input type="date" class="field" onchange="kycForm.dob=this.value"></div>
+              <div><label>Gender</label><select class="field" onchange="kycForm.gender=this.value"><option>Male</option><option>Female</option></select></div>
+              <div><label>Nationality</label><input class="field" value="Indian" onchange="kycForm.nationality=this.value"></div>
+            </div>
+            <button class="btn-p" onclick="kycStep(2)" style="margin-top:28px">Continue →</button>
+          ` : ''}
+          ${s.step === 2 ? `
+            <p class="sec-title" style="font-size:14px;margin-bottom:20px">Contact Verification</p>
+            <div style="display:flex;flex-direction:column;gap:20px">
+              <div><label>Phone Number</label><div style="display:flex;gap:10px"><input class="field" style="flex:1" placeholder="+91 9XXX XXX XXX" onchange="kycForm.phone=this.value"><button class="btn-s" onclick="if(kycForm.phone&&kycForm.phone.length>=10){kycForm.otpSent=true;alert('OTP sent to '+kycForm.phone);renderKYC()}">Send OTP</button></div>
+                ${kycForm.otpSent ? `<div style="display:flex;gap:10px;margin-top:12px"><input class="field" style="flex:1" placeholder="Enter OTP" onchange="kycForm.otp=this.value"><button class="btn-p" onclick="if(kycForm.otp==='1234'){kycForm.otpVerified=true;alert('OTP Verified!');renderKYC()}">Verify</button></div>` : ''}
+                ${kycForm.otpVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">✓ Phone verified</p>' : ''}
+              </div>
+              <div><label>Email Address</label><div style="display:flex;gap:10px"><input type="email" class="field" style="flex:1" placeholder="name@email.com" onchange="kycForm.email=this.value"><button class="btn-s" onclick="if(kycForm.email.includes('@')){kycForm.emailVerified=true;alert('Email Verified!');renderKYC()}">Verify Email</button></div>
+                ${kycForm.emailVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">✓ Email verified</p>' : ''}
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(1)">← Back</button><button class="btn-p" onclick="kycStep(3)">Continue →</button></div>
+          ` : ''}
+          ${s.step === 3 ? `
+            <p class="sec-title" style="font-size:14px;margin-bottom:20px">Identity Documents</p>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div><label>Aadhaar Number</label><input class="field" placeholder="12-digit Aadhaar number" onchange="kycForm.aadhaar=this.value"></div>
+              <div><label>PAN Number</label><input class="field" placeholder="e.g. ABCDE1234F" style="text-transform:uppercase" onchange="kycForm.pan=this.value"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="padding:28px;border:2px dashed var(--border);border-radius:8px;text-align:center"><p style="font-size:13px;color:var(--text-muted)">Upload Aadhaar Card</p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">Click to upload</p></div>
+                <div style="padding:28px;border:2px dashed var(--border);border-radius:8px;text-align:center"><p style="font-size:13px;color:var(--text-muted)">Upload PAN Card</p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">Click to upload</p></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(2)">← Back</button><button class="btn-p" onclick="kycStep(4)">Continue →</button></div>
+          ` : ''}
+          ${s.step === 4 ? `
+            <p class="sec-title" style="font-size:14px;margin-bottom:20px">Face Verification</p>
+            <div style="aspect-ratio:4/3;background:var(--bg-sidebar);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--border);margin-bottom:20px">
+              ${kycForm.faceCaptured ? '<p style="font-size:44px;margin-bottom:10px">✓</p><p style="font-size:14px;color:#065f46;font-weight:500">Face Capture Successful</p>' : '<p style="font-size:36px;color:var(--text-muted);margin-bottom:10px;opacity:.5">◉</p><p style="font-size:14px;color:var(--text-muted)">Camera preview will appear here</p>'}
+            </div>
+            ${!kycForm.faceCaptured ? '<button class="btn-p" onclick="kycForm.faceCaptured=true;renderKYC()" style="width:100%;justify-content:center">Start Face Verification</button>' : ''}
+            <div style="display:flex;gap:10px;margin-top:16px"><button class="btn-s" onclick="kycStep(3)">← Back</button><button class="btn-p" onclick="kycStep(5)">Continue →</button></div>
+          ` : ''}
+          ${s.step === 5 ? `
+            <p class="sec-title" style="font-size:14px;margin-bottom:20px">Review &amp; Submit</p>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
+              ${[['Name', kycForm.name||'Not provided'],['Phone', kycForm.otpVerified ? '✓ Verified' : 'Not verified'],['Email', kycForm.emailVerified ? '✓ Verified' : 'Not verified'],['Face Capture', kycForm.faceCaptured ? '✓ Completed' : 'Not done']].map(r => `
+                <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-light)"><span style="font-size:13px;color:var(--text-sec)">${r[0]}</span><span style="font-size:14px;font-weight:500">${r[1]}</span></div>
+              `).join('')}
+            </div>
+            <button class="btn-p" onclick="runKYC()" style="width:100%;justify-content:center">Submit for Verification</button>
+          ` : ''}
+        </div>
+        <div>${renderKYCResult()}</div>
+      </div>
+    </div>
+  `;
+}
+
+const kycForm = { name:'',dob:'',gender:'Male',nationality:'Indian',phone:'',otp:'',otpSent:false,otpVerified:false,email:'',emailVerified:false,aadhaar:'',pan:'',faceCaptured:false };
+function kycStep(n) { state.kyc.step = n; renderKYC(); }
+function runKYC() {
+  state.kyc.loading = true; renderKYC();
+  setTimeout(() => {
+    const aadhaarValid = (kycForm.aadhaar||'').replace(/\D/g,'').length === 12;
+    const panValid = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test((kycForm.pan||'').toUpperCase());
+    const ageValid = kycForm.dob ? (new Date().getFullYear() - new Date(kycForm.dob).getFullYear()) >= 18 : false;
+    const checks = [
+      { label: 'Aadhaar Format Valid', passed: aadhaarValid },
+      { label: 'PAN Format Valid', passed: panValid },
+      { label: 'OTP Verified', passed: kycForm.otpVerified },
+      { label: 'Face Capture Completed', passed: kycForm.faceCaptured },
+      { label: 'Age Verification (18+)', passed: ageValid },
+    ];
+    const allPassed = checks.every(c => c.passed);
+    state.kyc.result = { decision: allPassed ? 'VERIFIED' : checks.filter(c => c.passed).length >= 3 ? 'MANUAL REVIEW' : 'FAILED', checks };
+    state.kyc.loading = false; renderKYC();
+  }, 2000);
+}
+function renderKYCResult() {
+  const s = state.kyc;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">◈</p><p style="font-size:15px">Complete the verification steps</p></div>`;
+  if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is verifying identity...</p></div>`;
+  const r = s.result;
+  return `
+    <div class="card mb-20" style="text-align:center;padding:40px">
+      <h2 style="font-size:36px;color:${r.decision === 'VERIFIED' ? '#065f46' : r.decision === 'MANUAL REVIEW' ? '#92400e' : '#991b1b'};margin-bottom:12px">${r.decision}</h2>
+      <span class="tag ${r.decision === 'VERIFIED' ? 'tag-s' : r.decision === 'MANUAL REVIEW' ? 'tag-w' : 'tag-d'}" style="font-size:14px;padding:6px 16px">${r.decision === 'VERIFIED' ? 'Identity Confirmed' : r.decision === 'MANUAL REVIEW' ? 'Needs Manual Review' : 'Verification Failed'}</span>
+    </div>
+    <div class="card mb-20">
+      <h3 style="margin-bottom:16px">Verification Checks</h3>
+      ${r.checks.map(c => `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.passed ? '#f0fdf4' : '#fef2f2'};border-radius:8px;margin-bottom:8px"><span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? '✓' : '✗'}</span><span style="font-size:14px;font-weight:500">${c.label}</span></div>`).join('')}
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:16px">Compliance Status</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${[['RBI Compliance','Compliant','tag-s'],['DPDP Act 2023','Compliant','tag-s'],['FREE-AI Framework', r.decision === 'VERIFIED' ? 'Compliant' : 'Review Required', r.decision === 'VERIFIED' ? 'tag-s' : 'tag-w']].map(c => `
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:${c[1]==='Compliant'?'#f0fdf4':'#fffbeb'};border-radius:8px"><span style="font-size:14px">${c[0]}</span><span class="tag ${c[2]}">${c[1]}</span></div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ====== FRAUD ======
+function renderFraud() {
+  const s = state.fraud;
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">Fraud Intelligence</h1><p class="page-subtitle">Suspicious transaction analysis and anomaly detection.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <h2 style="margin-bottom:24px">Transaction Details</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Transaction Amount (₹)</label><input class="field" placeholder="e.g. 1500000" id="fraudAmt" value="${s.form.amount||''}"></div>
+              <div><label>Merchant Name</label><input class="field" placeholder="Merchant" id="fraudMerchant" value="${s.form.merchant||''}"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Location / Country</label><input class="field" placeholder="e.g. India, UAE" id="fraudLoc" value="${s.form.location||''}"></div>
+              <div><label>Previous Avg Spend (₹)</label><input class="field" placeholder="e.g. 100000" id="fraudAvg" value="${s.form.avgSpend||''}"></div>
+            </div>
+            <button class="btn-p" onclick="analyzeFraud()" style="width:100%;justify-content:center;margin-top:8px" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze Transaction Risk'}</button>
+          </div>
+        </div>
+        <div>${renderFraudResult()}</div>
+      </div>
+    </div>
+  `;
+}
+function analyzeFraud() {
+  const s = state.fraud;
+  s.form.amount = document.getElementById('fraudAmt').value;
+  s.form.merchant = document.getElementById('fraudMerchant').value;
+  s.form.location = document.getElementById('fraudLoc').value;
+  s.form.avgSpend = document.getElementById('fraudAvg').value;
+  s.loading = true; renderFraud();
+  const amount = parseFloat(s.form.amount)||0, avgSpend = parseFloat(s.form.avgSpend)||100000;
+  const isHigh = amount > 1000000, isAbnormal = amount > avgSpend*5, isForeign = s.form.location && s.form.location.toLowerCase() !== 'india';
+  const unknown = !['amazon','flipkart','big bazaar','swiggy','zomato','reliance'].some(m => (s.form.merchant||'').toLowerCase().includes(m));
+  const riskScore = Math.min(100, (isHigh?30:0)+(isAbnormal?25:0)+(isForeign?20:0)+(unknown?15:0)+10);
+  setTimeout(() => {
+    s.result = {
+      riskScore, riskLevel: riskScore >= 70 ? 'HIGH' : riskScore >= 40 ? 'MEDIUM' : 'LOW',
+      anomalies: [(isHigh ? 'Transaction exceeds ₹10L threshold' : ''),(isAbnormal ? `Amount ${(amount/avgSpend).toFixed(1)}x above average` : ''),(isForeign ? `Transaction from ${s.form.location}` : ''),(unknown ? 'New merchant — no prior history' : '')].filter(Boolean),
+    };
+    s.loading = false; renderFraud();
+  }, 1500);
+}
+function renderFraudResult() {
+  const s = state.fraud;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">⚠</p><p style="font-size:15px">Enter transaction details to analyze</p></div>`;
+  if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing transaction risk...</p></div>`;
+  const r = s.result;
+  return `
+    <div class="card mb-20" style="text-align:center;padding:32px">
+      <p class="sec-title mb-16">Risk Assessment</p>
+      <div style="width:130px;height:130px;border-radius:50%;border:7px solid ${r.riskLevel === 'HIGH' ? '#ef4444' : r.riskLevel === 'MEDIUM' ? '#f59e0b' : '#10b981'};display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 16px">
+        <span style="font-size:36px;font-weight:700">${r.riskScore}</span><span style="font-size:12px;color:var(--text-muted);font-weight:500">/100</span>
+      </div>
+      <span class="tag ${r.riskLevel === 'HIGH' ? 'tag-d' : r.riskLevel === 'MEDIUM' ? 'tag-w' : 'tag-s'}" style="font-size:14px;padding:6px 16px">${r.riskLevel} RISK</span>
+    </div>
+    <div class="card mb-20">
+      <h3 style="margin-bottom:16px">Anomaly Detection</h3>
+      ${r.anomalies.length ? r.anomalies.map(a => `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fef2f2;border-radius:8px;margin-bottom:8px"><span style="color:#dc2626;font-size:14px">⚠</span><span style="font-size:14px">${a}</span></div>`).join('') : '<p style="font-size:14px;color:var(--text-sec);padding:16px;background:var(--bg-sidebar);border-radius:8px">No anomalies detected.</p>'}
+    </div>
+    <div class="card">
+      <p class="sec-title mb-8">Recommended Action</p>
+      <span class="tag ${r.riskLevel === 'HIGH' ? 'tag-d' : r.riskLevel === 'MEDIUM' ? 'tag-w' : 'tag-s'}" style="font-size:13px">${r.riskLevel === 'HIGH' ? 'Escalate to Fraud Analyst' : r.riskLevel === 'MEDIUM' ? 'Manual Review Required' : 'Transaction Allowed'}</span>
+    </div>
+  `;
+}
+
+// ====== AML ======
+function renderAML() {
+  const s = state.aml;
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">AML Monitoring</h1><p class="page-subtitle">Anti-money laundering intelligence and suspicious activity detection.</p></div>
+      <div class="grid-2">
+        <div class="card">
+          <h2 style="margin-bottom:24px">AML Analysis Input</h2>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+              <div><label>Customer ID</label><input class="field" placeholder="Enter customer ID" id="amlCust" value="${s.form.customerId||''}"></div>
+              <div><label>Account Type</label><select class="field" id="amlAcct"><option ${s.form.accountType==='savings'?'selected':''}>savings</option><option ${s.form.accountType==='current'?'selected':''}>current</option></select></div>
+            </div>
+            <div><label>Transaction History</label><p style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Paste one transaction per line (amount in ₹)</p>
+              <textarea class="field" id="amlTxns" style="min-height:180px;resize:vertical;font-family:monospace" placeholder="₹9,90,000 deposit&#10;₹9,95,000 deposit&#10;₹9,80,000 deposit">${s.form.txns||''}</textarea>
+            </div>
+            <button class="btn-p" onclick="analyzeAML()" style="width:100%;justify-content:center" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze AML Risk'}</button>
+          </div>
+        </div>
+        <div>${renderAMLResult()}</div>
+      </div>
+    </div>
+  `;
+}
+function analyzeAML() {
+  const s = state.aml;
+  s.form.customerId = document.getElementById('amlCust').value;
+  s.form.accountType = document.getElementById('amlAcct').value;
+  s.form.txns = document.getElementById('amlTxns').value;
+  s.loading = true; renderAML();
+  const lines = s.form.txns.split('\n').filter(l => l.trim());
+  const amounts = lines.map(l => { const m = l.match(/[\d,]+/); return m ? parseFloat(m[0].replace(/,/g,'')) : 0; }).filter(a => a > 0);
+  const structCount = amounts.filter(a => a >= 900000 && a < 1000000).length;
+  const total = amounts.reduce((a,b)=>a+b,0);
+  const highVel = lines.length > 15;
+  const patterns = [
+    { name: 'STRUCTURING', detected: structCount >= 3, desc: structCount >= 3 ? `${structCount} deposits just under ₹10L` : 'No structuring detected' },
+    { name: 'LAYERING', detected: highVel && lines.length > 10, desc: highVel && lines.length > 10 ? `${lines.length} rapid transfers` : 'Normal velocity' },
+    { name: 'SHELL ACTIVITY', detected: total > 5000000 && lines.length < 5, desc: total > 5000000 && lines.length < 5 ? 'High value, low volume' : 'Normal ratio' },
+  ];
+  const detected = patterns.filter(p => p.detected);
+  setTimeout(() => {
+    s.result = {
+      patterns, riskScore: Math.min(100, detected.length*25+15), severity: detected.length >= 2 ? 'HIGH' : detected.length === 1 ? 'MEDIUM' : 'LOW',
+      narrative: detected.length ? `Suspicious Activity Report — Pattern: ${detected.map(p=>p.name).join(', ')}. Customer: ${s.form.customerId||'unknown'}. Total: ₹${total.toLocaleString('en-IN')}. Action: Submit to FIU-India.` : 'No suspicious patterns detected.',
+    };
+    s.loading = false; renderAML();
+  }, 1500);
+}
+function renderAMLResult() {
+  const s = state.aml;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">◉</p><p style="font-size:15px">Enter transaction data to analyze</p></div>`;
+  if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing for AML patterns...</p></div>`;
+  const r = s.result;
+  return `
+    <div class="card mb-20">
+      <h3 style="margin-bottom:16px">Pattern Detection</h3>
+      ${r.patterns.map(p => `<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:${p.detected ? '#fef2f2' : '#f0fdf4'};border-radius:8px;border-left:4px solid ${p.detected ? '#ef4444' : '#10b981'};margin-bottom:10px"><div style="flex:1"><div style="display:flex;align-items:center;gap:10px;margin-bottom:4px"><span style="font-size:14px;font-weight:600">${p.name}</span>${p.detected ? '<span class="tag tag-d" style="font-size:10px">FLAGGED</span>' : ''}</div><p style="font-size:13px;color:var(--text-sec)">${p.desc}</p></div></div>`).join('')}
+    </div>
+    <div class="card mb-20">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><p class="sec-title">AML Risk Score</p><p style="font-size:30px;font-weight:700;font-family:'Source Serif 4',Georgia,serif">${r.riskScore}<span style="font-size:15px;color:var(--text-muted);font-weight:400">/100</span></p></div>
+        <div style="text-align:right"><p class="sec-title">Severity</p><span class="tag ${r.severity === 'HIGH' ? 'tag-d' : r.severity === 'MEDIUM' ? 'tag-w' : 'tag-s'}" style="margin-top:6px">${r.severity}</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:16px">Suspicious Activity Report</h3>
+      <p style="font-size:14px;color:var(--text-sec);line-height:1.7;margin-bottom:20px">${r.narrative}</p>
+      <button class="btn-p">Generate SAR Report →</button>
+    </div>
+  `;
+}
+
+// ====== AUDIT ======
+function renderAudit() {
+  const rows = [
+    {id:'AUD-001',ts:'18 May 2026, 14:32',mod:'Loan Intelligence',dec:'APPROVED',risk:'Low',status:'Completed'},
+    {id:'AUD-002',ts:'18 May 2026, 13:15',mod:'KYC Verification',dec:'VERIFIED',risk:'Low',status:'Completed'},
+    {id:'AUD-003',ts:'18 May 2026, 11:48',mod:'Fraud Intelligence',dec:'BLOCK',risk:'High',status:'Escalated'},
+    {id:'AUD-004',ts:'18 May 2026, 10:22',mod:'AML Monitoring',dec:'REPORT',risk:'High',status:'FIU Submitted'},
+    {id:'AUD-005',ts:'17 May 2026, 16:05',mod:'Loan Intelligence',dec:'REJECTED',risk:'Medium',status:'Reviewed'},
+    {id:'AUD-006',ts:'17 May 2026, 14:30',mod:'KYC Verification',dec:'FAILED',risk:'Medium',status:'Manual Review'},
+    {id:'AUD-007',ts:'17 May 2026, 09:12',mod:'Fraud Intelligence',dec:'ALLOW',risk:'Low',status:'Completed'},
+  ];
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">Audit Trail</h1><p class="page-subtitle">Complete decision history with explainability traces.</p></div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:24px 28px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+          <h2 style="font-size:18px">Decision History</h2>
+          <div style="display:flex;gap:10px"><button class="btn-s" style="padding:8px 16px;font-size:13px">Export PDF</button><button class="btn-s" style="padding:8px 16px;font-size:13px">Export CSV</button></div>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead><tr style="border-bottom:1px solid var(--border);background:var(--bg-sidebar)">${['ID','Timestamp','Module','Decision','Risk','Status'].map(h => `<th style="padding:12px 20px;text-align:left;font-weight:600;color:var(--text-sec)">${h}</th>`).join('')}</tr></thead>
+            <tbody>${rows.map(r => `
+              <tr style="border-bottom:1px solid var(--border-light);cursor:pointer;transition:background .15s" onmouseenter="this.style.background='var(--bg-sidebar)'" onmouseleave="this.style.background='transparent'">
+                <td style="padding:12px 20px;font-weight:600;color:var(--accent)">${r.id}</td>
+                <td style="padding:12px 20px;color:var(--text-sec)">${r.ts}</td>
+                <td style="padding:12px 20px">${r.mod}</td>
+                <td style="padding:12px 20px"><span class="tag ${r.dec === 'APPROVED'||r.dec==='VERIFIED'||r.dec==='ALLOW' ? 'tag-s' : r.dec==='REJECTED'||r.dec==='FAILED'||r.dec==='BLOCK' ? 'tag-d' : 'tag-w'}">${r.dec}</span></td>
+                <td style="padding:12px 20px"><span class="tag ${r.risk==='Low'?'tag-s':r.risk==='Medium'?'tag-w':'tag-d'}">${r.risk}</span></td>
+                <td style="padding:12px 20px;color:var(--text-sec)">${r.status}</td>
+              </tr>
+            `).join('')}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ====== REPORTS ======
+function renderReports() {
+  const reports = [
+    {id:'SAR-2026-001',type:'SAR Report',mod:'AML Monitoring',date:'18 May 2026',status:'Generated',desc:'Structuring pattern detected'},
+    {id:'KYC-2026-042',type:'KYC Report',mod:'KYC Verification',date:'18 May 2026',status:'Generated',desc:'Identity verification for CUST-1024'},
+    {id:'FRD-2026-018',type:'Fraud Report',mod:'Fraud Intelligence',date:'17 May 2026',status:'Reviewed',desc:'Suspicious overseas transaction flagged'},
+    {id:'LOAN-2026-089',type:'Loan Report',mod:'Loan Intelligence',date:'17 May 2026',status:'Generated',desc:'Loan approval — ₹15,00,000 at 9.5%'},
+    {id:'CMP-2026-005',type:'Compliance Report',mod:'System',date:'16 May 2026',status:'Finalized',desc:'Monthly compliance audit'},
+    {id:'SAR-2026-002',type:'SAR Report',mod:'AML Monitoring',date:'16 May 2026',status:'Submitted',desc:'Round tripping pattern detected'},
+  ];
+  const statusClass = { 'Generated':'tag-i', 'Reviewed':'tag-w', 'Finalized':'tag-s', 'Submitted':'tag-i', 'Failed':'tag-d' };
+  document.getElementById('content').innerHTML = `
+    <div class="page active">
+      <div class="page-header"><div class="accent-line"></div><h1 class="page-title">Reports</h1><p class="page-subtitle">Centralized report management for compliance and audit documentation.</p></div>
+      ${reports.map(r => `
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;padding:18px 24px;margin-bottom:14px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+              <span style="font-size:14px;font-weight:600;color:var(--accent)">${r.id}</span>
+              <span class="tag ${statusClass[r.status]||'tag-i'}" style="font-size:10px">${r.status}</span>
+              <span style="font-size:12px;color:var(--text-muted)">${r.mod}</span>
+            </div>
+            <p style="font-size:15px;font-weight:500">${r.type}</p>
+            <p style="font-size:13px;color:var(--text-sec);margin-top:4px">${r.desc}</p>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:12px;color:var(--text-muted);white-space:nowrap">${r.date}</span>
+            <button class="btn-s" style="padding:8px 16px;font-size:13px">Preview</button>
+            <button class="btn-p" style="padding:8px 16px;font-size:13px">Download</button>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ====== ROUTER ======
+function renderPage(page) {
+  switch(page) {
+    case 'overview': document.getElementById('content').innerHTML = renderOverview(); break;
+    case 'loan': renderLoan(); break;
+    case 'kyc': renderKYC(); break;
+    case 'fraud': renderFraud(); break;
+    case 'aml': renderAML(); break;
+    case 'audit': renderAudit(); break;
+    case 'reports': renderReports(); break;
+  }
+}
+
+renderPage('overview');
+</script>
+</body>
+</html>
