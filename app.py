@@ -161,6 +161,6 @@ async def audit_trail(feature: str, inputs: dict, decision: str):
 # Static frontend serving
 # ---------------------------------------------------------------------------
 
-STATIC_DIR = Path(__file__).parent / "frontend-dist"
+STATIC_DIR = Path(__file__).parent / "static"
 if STATIC_DIR.is_dir() and (STATIC_DIR / "index.html").exists():
     app.mount("/", StaticFiles(directory=str(STATIC_DIR), html=True), name="static")

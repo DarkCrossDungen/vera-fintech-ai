@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VERA — AI Compliance Intelligence</title>
+<title>VERA ΓÇö AI Compliance Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
 <style>
@@ -106,19 +106,19 @@ label { display: block; font-size: 13px; font-weight: 500; color: var(--text-sec
       <a href="#" onclick="navigate('overview')"><h1>VERA</h1><p>AI Compliance Intelligence</p></a>
     </div>
     <nav class="sidebar-nav">
-      <a class="sidebar-link active" href="#" data-page="overview" onclick="navigate('overview')"><span class="icon">◇</span>Overview</a>
-      <a class="sidebar-link" href="#" data-page="loan" onclick="navigate('loan')"><span class="icon">▤</span>Loan Intelligence</a>
-      <a class="sidebar-link" href="#" data-page="kyc" onclick="navigate('kyc')"><span class="icon">◈</span>KYC Verification</a>
-      <a class="sidebar-link" href="#" data-page="fraud" onclick="navigate('fraud')"><span class="icon">⚠</span>Fraud Intelligence</a>
-      <a class="sidebar-link" href="#" data-page="aml" onclick="navigate('aml')"><span class="icon">◉</span>AML Monitoring</a>
-      <a class="sidebar-link" href="#" data-page="audit" onclick="navigate('audit')"><span class="icon">⊞</span>Audit Trail</a>
-      <a class="sidebar-link" href="#" data-page="reports" onclick="navigate('reports')"><span class="icon">▣</span>Reports</a>
+      <a class="sidebar-link active" href="#" data-page="overview" onclick="navigate('overview')"><span class="icon">Γùç</span>Overview</a>
+      <a class="sidebar-link" href="#" data-page="loan" onclick="navigate('loan')"><span class="icon">Γûñ</span>Loan Intelligence</a>
+      <a class="sidebar-link" href="#" data-page="kyc" onclick="navigate('kyc')"><span class="icon">Γùê</span>KYC Verification</a>
+      <a class="sidebar-link" href="#" data-page="fraud" onclick="navigate('fraud')"><span class="icon">ΓÜá</span>Fraud Intelligence</a>
+      <a class="sidebar-link" href="#" data-page="aml" onclick="navigate('aml')"><span class="icon">Γùë</span>AML Monitoring</a>
+      <a class="sidebar-link" href="#" data-page="audit" onclick="navigate('audit')"><span class="icon">Γè₧</span>Audit Trail</a>
+      <a class="sidebar-link" href="#" data-page="reports" onclick="navigate('reports')"><span class="icon">Γûú</span>Reports</a>
     </nav>
     <div class="sidebar-footer">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <span class="status-dot on"></span><span style="font-weight:500;color:var(--text)">All Systems Normal</span>
       </div>
-      <p>VERA v1.0 · Gemma 4</p>
+      <p>VERA v1.0 ┬╖ Gemma 4</p>
     </div>
   </aside>
 
@@ -179,10 +179,10 @@ function renderOverview() {
           <h2 style="margin-bottom:24px">Live Activity Feed</h2>
           <div style="display:flex;flex-direction:column;gap:16px">
             ${[
-              { text: 'Suspicious overseas transfer detected — ₹12,50,000 to unknown beneficiary', time: '2 min ago', sev: 'high', type: 'Fraud Alert' },
-              { text: 'KYC mismatch identified — Aadhaar name does not match PAN', time: '8 min ago', sev: 'mid', type: 'KYC Flag' },
-              { text: 'Loan approved after verification — ₹15,00,000 at 9.5%', time: '15 min ago', sev: 'low', type: 'Loan Event' },
-              { text: 'Potential structuring pattern detected — 4 deposits under ₹10L', time: '27 min ago', sev: 'high', type: 'AML Alert' },
+              { text: 'Suspicious overseas transfer detected ΓÇö Γé╣12,50,000 to unknown beneficiary', time: '2 min ago', sev: 'high', type: 'Fraud Alert' },
+              { text: 'KYC mismatch identified ΓÇö Aadhaar name does not match PAN', time: '8 min ago', sev: 'mid', type: 'KYC Flag' },
+              { text: 'Loan approved after verification ΓÇö Γé╣15,00,000 at 9.5%', time: '15 min ago', sev: 'low', type: 'Loan Event' },
+              { text: 'Potential structuring pattern detected ΓÇö 4 deposits under Γé╣10L', time: '27 min ago', sev: 'high', type: 'AML Alert' },
             ].map(a => `
               <div style="display:flex;gap:16px;padding:14px 18px;background:${a.sev === 'high' ? '#fef2f2' : a.sev === 'mid' ? '#fffbeb' : '#f0fdf4'};border-radius:8px;border-left:4px solid ${a.sev === 'high' ? '#ef4444' : a.sev === 'mid' ? '#f59e0b' : '#10b981'}">
                 <div style="flex:1">
@@ -201,7 +201,7 @@ function renderOverview() {
           <h2 style="margin-bottom:24px">AI Intelligence</h2>
           <div style="background:var(--bg-sidebar);padding:18px;border-radius:8px;margin-bottom:20px;border-left:3px solid var(--accent-warm)">
             <p class="sec-title mb-8">Risk Summary</p>
-            <p style="font-size:14px;line-height:1.7">Transaction activity shows elevated risk in cross-border payments. Three transfers exceeding ₹10L detected in the last 24 hours — a 340% increase over normal patterns.</p>
+            <p style="font-size:14px;line-height:1.7">Transaction activity shows elevated risk in cross-border payments. Three transfers exceeding Γé╣10L detected in the last 24 hours ΓÇö a 340% increase over normal patterns.</p>
           </div>
           <div class="mb-20">
             <p class="sec-title">AI Reasoning</p>
@@ -232,7 +232,7 @@ function analyzeLoan() {
   setTimeout(() => {
     state.loan.result = {
       decision: approved ? 'APPROVED' : 'REVIEW', riskLevel: approved ? 'Low' : 'Medium-High', confidence: approved ? 92 : 58,
-      recommendedLoan: '₹' + Math.min(loanAmt, income*12*3).toLocaleString('en-IN'),
+      recommendedLoan: 'Γé╣' + Math.min(loanAmt, income*12*3).toLocaleString('en-IN'),
       checks: [
         { label: 'Income Verified', passed: income >= 25000 },
         { label: 'Debt Ratio Within Threshold', passed: (expenses/(income||1)) <= 0.4 },
@@ -265,9 +265,9 @@ function renderLoan() {
           <div class="mb-24">
             <p class="sec-title">Financial Information</p>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div><label>Monthly Income (₹)</label><input class="field" placeholder="e.g. 80000" onchange="handleLoanChange('monthlyIncome',this.value)"></div>
-              <div><label>Monthly Expenses (₹)</label><input class="field" placeholder="e.g. 30000" onchange="handleLoanChange('monthlyExpenses',this.value)"></div>
-              <div><label>Requested Loan (₹)</label><input class="field" placeholder="e.g. 1000000" onchange="handleLoanChange('loanAmount',this.value)"></div>
+              <div><label>Monthly Income (Γé╣)</label><input class="field" placeholder="e.g. 80000" onchange="handleLoanChange('monthlyIncome',this.value)"></div>
+              <div><label>Monthly Expenses (Γé╣)</label><input class="field" placeholder="e.g. 30000" onchange="handleLoanChange('monthlyExpenses',this.value)"></div>
+              <div><label>Requested Loan (Γé╣)</label><input class="field" placeholder="e.g. 1000000" onchange="handleLoanChange('loanAmount',this.value)"></div>
               <div><label>Credit Score</label><input class="field" placeholder="300-900" onchange="handleLoanChange('creditScore',this.value)"></div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 16px;background:var(--bg-sidebar);border-radius:8px">
@@ -278,7 +278,7 @@ function renderLoan() {
           <button class="btn-p" onclick="analyzeLoan()" style="width:100%;justify-content:center" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze Loan Eligibility'}</button>
         </div>
         <div>
-          ${!s.result && !s.loading ? `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">▤</p><p style="font-size:15px">Submit a loan application to see AI analysis</p></div>` : ''}
+          ${!s.result && !s.loading ? `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">Γûñ</p><p style="font-size:15px">Submit a loan application to see AI analysis</p></div>` : ''}
           ${s.loading ? `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing the application...</p></div>` : ''}
           ${s.result ? `
             <div class="card mb-20">
@@ -304,7 +304,7 @@ function renderLoan() {
               <h3 style="margin-bottom:16px">Verification Checks</h3>
               ${s.result.checks.map(c => `
                 <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.passed ? '#f0fdf4' : '#fef2f2'};border-radius:8px;margin-bottom:8px">
-                  <span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? '✓' : '✗'}</span>
+                  <span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? 'Γ£ô' : 'Γ£ù'}</span>
                   <span style="font-size:14px;font-weight:500">${c.label}</span>
                 </div>
               `).join('')}
@@ -334,20 +334,20 @@ function renderKYC() {
               <div><label>Gender</label><select class="field" onchange="kycForm.gender=this.value"><option>Male</option><option>Female</option></select></div>
               <div><label>Nationality</label><input class="field" value="Indian" onchange="kycForm.nationality=this.value"></div>
             </div>
-            <button class="btn-p" onclick="kycStep(2)" style="margin-top:28px">Continue →</button>
+            <button class="btn-p" onclick="kycStep(2)" style="margin-top:28px">Continue ΓåÆ</button>
           ` : ''}
           ${s.step === 2 ? `
             <p class="sec-title" style="font-size:14px;margin-bottom:20px">Contact Verification</p>
             <div style="display:flex;flex-direction:column;gap:20px">
               <div><label>Phone Number</label><div style="display:flex;gap:10px"><input class="field" style="flex:1" placeholder="+91 9XXX XXX XXX" onchange="kycForm.phone=this.value"><button class="btn-s" onclick="if(kycForm.phone&&kycForm.phone.length>=10){kycForm.otpSent=true;alert('OTP sent to '+kycForm.phone);renderKYC()}">Send OTP</button></div>
                 ${kycForm.otpSent ? `<div style="display:flex;gap:10px;margin-top:12px"><input class="field" style="flex:1" placeholder="Enter OTP" onchange="kycForm.otp=this.value"><button class="btn-p" onclick="if(kycForm.otp==='1234'){kycForm.otpVerified=true;alert('OTP Verified!');renderKYC()}">Verify</button></div>` : ''}
-                ${kycForm.otpVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">✓ Phone verified</p>' : ''}
+                ${kycForm.otpVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">Γ£ô Phone verified</p>' : ''}
               </div>
               <div><label>Email Address</label><div style="display:flex;gap:10px"><input type="email" class="field" style="flex:1" placeholder="name@email.com" onchange="kycForm.email=this.value"><button class="btn-s" onclick="if(kycForm.email.includes('@')){kycForm.emailVerified=true;alert('Email Verified!');renderKYC()}">Verify Email</button></div>
-                ${kycForm.emailVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">✓ Email verified</p>' : ''}
+                ${kycForm.emailVerified ? '<p style="font-size:13px;color:#065f46;margin-top:8px">Γ£ô Email verified</p>' : ''}
               </div>
             </div>
-            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(1)">← Back</button><button class="btn-p" onclick="kycStep(3)">Continue →</button></div>
+            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(1)">ΓåÉ Back</button><button class="btn-p" onclick="kycStep(3)">Continue ΓåÆ</button></div>
           ` : ''}
           ${s.step === 3 ? `
             <p class="sec-title" style="font-size:14px;margin-bottom:20px">Identity Documents</p>
@@ -359,20 +359,20 @@ function renderKYC() {
                 <div style="padding:28px;border:2px dashed var(--border);border-radius:8px;text-align:center"><p style="font-size:13px;color:var(--text-muted)">Upload PAN Card</p><p style="font-size:11px;color:var(--text-muted);margin-top:4px">Click to upload</p></div>
               </div>
             </div>
-            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(2)">← Back</button><button class="btn-p" onclick="kycStep(4)">Continue →</button></div>
+            <div style="display:flex;gap:10px;margin-top:28px"><button class="btn-s" onclick="kycStep(2)">ΓåÉ Back</button><button class="btn-p" onclick="kycStep(4)">Continue ΓåÆ</button></div>
           ` : ''}
           ${s.step === 4 ? `
             <p class="sec-title" style="font-size:14px;margin-bottom:20px">Face Verification</p>
             <div style="aspect-ratio:4/3;background:var(--bg-sidebar);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--border);margin-bottom:20px">
-              ${kycForm.faceCaptured ? '<p style="font-size:44px;margin-bottom:10px">✓</p><p style="font-size:14px;color:#065f46;font-weight:500">Face Capture Successful</p>' : '<p style="font-size:36px;color:var(--text-muted);margin-bottom:10px;opacity:.5">◉</p><p style="font-size:14px;color:var(--text-muted)">Camera preview will appear here</p>'}
+              ${kycForm.faceCaptured ? '<p style="font-size:44px;margin-bottom:10px">Γ£ô</p><p style="font-size:14px;color:#065f46;font-weight:500">Face Capture Successful</p>' : '<p style="font-size:36px;color:var(--text-muted);margin-bottom:10px;opacity:.5">Γùë</p><p style="font-size:14px;color:var(--text-muted)">Camera preview will appear here</p>'}
             </div>
             ${!kycForm.faceCaptured ? '<button class="btn-p" onclick="kycForm.faceCaptured=true;renderKYC()" style="width:100%;justify-content:center">Start Face Verification</button>' : ''}
-            <div style="display:flex;gap:10px;margin-top:16px"><button class="btn-s" onclick="kycStep(3)">← Back</button><button class="btn-p" onclick="kycStep(5)">Continue →</button></div>
+            <div style="display:flex;gap:10px;margin-top:16px"><button class="btn-s" onclick="kycStep(3)">ΓåÉ Back</button><button class="btn-p" onclick="kycStep(5)">Continue ΓåÆ</button></div>
           ` : ''}
           ${s.step === 5 ? `
             <p class="sec-title" style="font-size:14px;margin-bottom:20px">Review &amp; Submit</p>
             <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px">
-              ${[['Name', kycForm.name||'Not provided'],['Phone', kycForm.otpVerified ? '✓ Verified' : 'Not verified'],['Email', kycForm.emailVerified ? '✓ Verified' : 'Not verified'],['Face Capture', kycForm.faceCaptured ? '✓ Completed' : 'Not done']].map(r => `
+              ${[['Name', kycForm.name||'Not provided'],['Phone', kycForm.otpVerified ? 'Γ£ô Verified' : 'Not verified'],['Email', kycForm.emailVerified ? 'Γ£ô Verified' : 'Not verified'],['Face Capture', kycForm.faceCaptured ? 'Γ£ô Completed' : 'Not done']].map(r => `
                 <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border-light)"><span style="font-size:13px;color:var(--text-sec)">${r[0]}</span><span style="font-size:14px;font-weight:500">${r[1]}</span></div>
               `).join('')}
             </div>
@@ -407,7 +407,7 @@ function runKYC() {
 }
 function renderKYCResult() {
   const s = state.kyc;
-  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">◈</p><p style="font-size:15px">Complete the verification steps</p></div>`;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">Γùê</p><p style="font-size:15px">Complete the verification steps</p></div>`;
   if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is verifying identity...</p></div>`;
   const r = s.result;
   return `
@@ -417,7 +417,7 @@ function renderKYCResult() {
     </div>
     <div class="card mb-20">
       <h3 style="margin-bottom:16px">Verification Checks</h3>
-      ${r.checks.map(c => `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.passed ? '#f0fdf4' : '#fef2f2'};border-radius:8px;margin-bottom:8px"><span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? '✓' : '✗'}</span><span style="font-size:14px;font-weight:500">${c.label}</span></div>`).join('')}
+      ${r.checks.map(c => `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:${c.passed ? '#f0fdf4' : '#fef2f2'};border-radius:8px;margin-bottom:8px"><span style="font-size:16px;color:${c.passed ? '#16a34a' : '#dc2626'}">${c.passed ? 'Γ£ô' : 'Γ£ù'}</span><span style="font-size:14px;font-weight:500">${c.label}</span></div>`).join('')}
     </div>
     <div class="card">
       <h3 style="margin-bottom:16px">Compliance Status</h3>
@@ -441,12 +441,12 @@ function renderFraud() {
           <h2 style="margin-bottom:24px">Transaction Details</h2>
           <div style="display:flex;flex-direction:column;gap:16px">
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-              <div><label>Transaction Amount (₹)</label><input class="field" placeholder="e.g. 1500000" id="fraudAmt" value="${s.form.amount||''}"></div>
+              <div><label>Transaction Amount (Γé╣)</label><input class="field" placeholder="e.g. 1500000" id="fraudAmt" value="${s.form.amount||''}"></div>
               <div><label>Merchant Name</label><input class="field" placeholder="Merchant" id="fraudMerchant" value="${s.form.merchant||''}"></div>
             </div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
               <div><label>Location / Country</label><input class="field" placeholder="e.g. India, UAE" id="fraudLoc" value="${s.form.location||''}"></div>
-              <div><label>Previous Avg Spend (₹)</label><input class="field" placeholder="e.g. 100000" id="fraudAvg" value="${s.form.avgSpend||''}"></div>
+              <div><label>Previous Avg Spend (Γé╣)</label><input class="field" placeholder="e.g. 100000" id="fraudAvg" value="${s.form.avgSpend||''}"></div>
             </div>
             <button class="btn-p" onclick="analyzeFraud()" style="width:100%;justify-content:center;margin-top:8px" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze Transaction Risk'}</button>
           </div>
@@ -470,14 +470,14 @@ function analyzeFraud() {
   setTimeout(() => {
     s.result = {
       riskScore, riskLevel: riskScore >= 70 ? 'HIGH' : riskScore >= 40 ? 'MEDIUM' : 'LOW',
-      anomalies: [(isHigh ? 'Transaction exceeds ₹10L threshold' : ''),(isAbnormal ? `Amount ${(amount/avgSpend).toFixed(1)}x above average` : ''),(isForeign ? `Transaction from ${s.form.location}` : ''),(unknown ? 'New merchant — no prior history' : '')].filter(Boolean),
+      anomalies: [(isHigh ? 'Transaction exceeds Γé╣10L threshold' : ''),(isAbnormal ? `Amount ${(amount/avgSpend).toFixed(1)}x above average` : ''),(isForeign ? `Transaction from ${s.form.location}` : ''),(unknown ? 'New merchant ΓÇö no prior history' : '')].filter(Boolean),
     };
     s.loading = false; renderFraud();
   }, 1500);
 }
 function renderFraudResult() {
   const s = state.fraud;
-  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">⚠</p><p style="font-size:15px">Enter transaction details to analyze</p></div>`;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">ΓÜá</p><p style="font-size:15px">Enter transaction details to analyze</p></div>`;
   if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing transaction risk...</p></div>`;
   const r = s.result;
   return `
@@ -490,7 +490,7 @@ function renderFraudResult() {
     </div>
     <div class="card mb-20">
       <h3 style="margin-bottom:16px">Anomaly Detection</h3>
-      ${r.anomalies.length ? r.anomalies.map(a => `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fef2f2;border-radius:8px;margin-bottom:8px"><span style="color:#dc2626;font-size:14px">⚠</span><span style="font-size:14px">${a}</span></div>`).join('') : '<p style="font-size:14px;color:var(--text-sec);padding:16px;background:var(--bg-sidebar);border-radius:8px">No anomalies detected.</p>'}
+      ${r.anomalies.length ? r.anomalies.map(a => `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fef2f2;border-radius:8px;margin-bottom:8px"><span style="color:#dc2626;font-size:14px">ΓÜá</span><span style="font-size:14px">${a}</span></div>`).join('') : '<p style="font-size:14px;color:var(--text-sec);padding:16px;background:var(--bg-sidebar);border-radius:8px">No anomalies detected.</p>'}
     </div>
     <div class="card">
       <p class="sec-title mb-8">Recommended Action</p>
@@ -513,8 +513,8 @@ function renderAML() {
               <div><label>Customer ID</label><input class="field" placeholder="Enter customer ID" id="amlCust" value="${s.form.customerId||''}"></div>
               <div><label>Account Type</label><select class="field" id="amlAcct"><option ${s.form.accountType==='savings'?'selected':''}>savings</option><option ${s.form.accountType==='current'?'selected':''}>current</option></select></div>
             </div>
-            <div><label>Transaction History</label><p style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Paste one transaction per line (amount in ₹)</p>
-              <textarea class="field" id="amlTxns" style="min-height:180px;resize:vertical;font-family:monospace" placeholder="₹9,90,000 deposit&#10;₹9,95,000 deposit&#10;₹9,80,000 deposit">${s.form.txns||''}</textarea>
+            <div><label>Transaction History</label><p style="font-size:12px;color:var(--text-muted);margin-bottom:8px">Paste one transaction per line (amount in Γé╣)</p>
+              <textarea class="field" id="amlTxns" style="min-height:180px;resize:vertical;font-family:monospace" placeholder="Γé╣9,90,000 deposit&#10;Γé╣9,95,000 deposit&#10;Γé╣9,80,000 deposit">${s.form.txns||''}</textarea>
             </div>
             <button class="btn-p" onclick="analyzeAML()" style="width:100%;justify-content:center" ${s.loading ? 'disabled' : ''}>${s.loading ? 'Analyzing...' : 'Analyze AML Risk'}</button>
           </div>
@@ -536,7 +536,7 @@ function analyzeAML() {
   const total = amounts.reduce((a,b)=>a+b,0);
   const highVel = lines.length > 15;
   const patterns = [
-    { name: 'STRUCTURING', detected: structCount >= 3, desc: structCount >= 3 ? `${structCount} deposits just under ₹10L` : 'No structuring detected' },
+    { name: 'STRUCTURING', detected: structCount >= 3, desc: structCount >= 3 ? `${structCount} deposits just under Γé╣10L` : 'No structuring detected' },
     { name: 'LAYERING', detected: highVel && lines.length > 10, desc: highVel && lines.length > 10 ? `${lines.length} rapid transfers` : 'Normal velocity' },
     { name: 'SHELL ACTIVITY', detected: total > 5000000 && lines.length < 5, desc: total > 5000000 && lines.length < 5 ? 'High value, low volume' : 'Normal ratio' },
   ];
@@ -544,14 +544,14 @@ function analyzeAML() {
   setTimeout(() => {
     s.result = {
       patterns, riskScore: Math.min(100, detected.length*25+15), severity: detected.length >= 2 ? 'HIGH' : detected.length === 1 ? 'MEDIUM' : 'LOW',
-      narrative: detected.length ? `Suspicious Activity Report — Pattern: ${detected.map(p=>p.name).join(', ')}. Customer: ${s.form.customerId||'unknown'}. Total: ₹${total.toLocaleString('en-IN')}. Action: Submit to FIU-India.` : 'No suspicious patterns detected.',
+      narrative: detected.length ? `Suspicious Activity Report ΓÇö Pattern: ${detected.map(p=>p.name).join(', ')}. Customer: ${s.form.customerId||'unknown'}. Total: Γé╣${total.toLocaleString('en-IN')}. Action: Submit to FIU-India.` : 'No suspicious patterns detected.',
     };
     s.loading = false; renderAML();
   }, 1500);
 }
 function renderAMLResult() {
   const s = state.aml;
-  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">◉</p><p style="font-size:15px">Enter transaction data to analyze</p></div>`;
+  if (!s.result && !s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;color:var(--text-muted)"><p style="font-size:48px;margin-bottom:16px;opacity:.4">Γùë</p><p style="font-size:15px">Enter transaction data to analyze</p></div>`;
   if (s.loading) return `<div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px"><div class="loader mb-20"></div><p style="font-size:14px;color:var(--text-sec)">VERA is analyzing for AML patterns...</p></div>`;
   const r = s.result;
   return `
@@ -568,7 +568,7 @@ function renderAMLResult() {
     <div class="card">
       <h3 style="margin-bottom:16px">Suspicious Activity Report</h3>
       <p style="font-size:14px;color:var(--text-sec);line-height:1.7;margin-bottom:20px">${r.narrative}</p>
-      <button class="btn-p">Generate SAR Report →</button>
+      <button class="btn-p">Generate SAR Report ΓåÆ</button>
     </div>
   `;
 }
@@ -618,7 +618,7 @@ function renderReports() {
     {id:'SAR-2026-001',type:'SAR Report',mod:'AML Monitoring',date:'18 May 2026',status:'Generated',desc:'Structuring pattern detected'},
     {id:'KYC-2026-042',type:'KYC Report',mod:'KYC Verification',date:'18 May 2026',status:'Generated',desc:'Identity verification for CUST-1024'},
     {id:'FRD-2026-018',type:'Fraud Report',mod:'Fraud Intelligence',date:'17 May 2026',status:'Reviewed',desc:'Suspicious overseas transaction flagged'},
-    {id:'LOAN-2026-089',type:'Loan Report',mod:'Loan Intelligence',date:'17 May 2026',status:'Generated',desc:'Loan approval — ₹15,00,000 at 9.5%'},
+    {id:'LOAN-2026-089',type:'Loan Report',mod:'Loan Intelligence',date:'17 May 2026',status:'Generated',desc:'Loan approval ΓÇö Γé╣15,00,000 at 9.5%'},
     {id:'CMP-2026-005',type:'Compliance Report',mod:'System',date:'16 May 2026',status:'Finalized',desc:'Monthly compliance audit'},
     {id:'SAR-2026-002',type:'SAR Report',mod:'AML Monitoring',date:'16 May 2026',status:'Submitted',desc:'Round tripping pattern detected'},
   ];
